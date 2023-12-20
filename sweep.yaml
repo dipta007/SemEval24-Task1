@@ -1,7 +1,7 @@
 # To edit this file: https://docs.wandb.ai/guides/sweeps/define-sweep-configuration
 
 entity: gcnssdvae
-project: dummy
+project: sem1
 
 program: src/train.py
 method: bayes

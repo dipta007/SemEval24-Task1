@@ -7,8 +7,8 @@ from lightning.pytorch.callbacks import (
     ModelCheckpoint,
 )
 from lightning.pytorch.loggers import WandbLogger
-from dataloaders.dummy_datamodule import DummyDataModule
-from models.dummy_model import DummyModel
+from dataloaders.telugu_datamodule import TeluguDataModule
+from models.model import TeluguModel
 import base_config as config
 import shutil
 import wandb
@@ -66,10 +66,10 @@ def main():
         loggers[0].experiment.define_metric("valid/text_acc", summary="max")
 
     print("Loading data")
-    datamodule = DummyDataModule(config)
+    datamodule = TeluguDataModule(config)
 
     print("Loading model")
-    model = DummyModel(config)
+    model = TeluguModel(config)
 
     print("Training")
     accumulate_grad_batches = (

@@ -1,9 +1,4 @@
-# pl-fast
-
-## Steps:
-1. Go to `./src/base_config.py` and check every variable. Change if needed.
-2. Search file names for "dummy" and change if needed.
-3. Global search for "dummy" and change if needed.
+# SemEval 2024 Task 1
 
 ## CMDS:
 1. `srun --mem=40000 --time=24:00:00 --gres=gpu:1 --pty --constraint=rtx_8000 bash`

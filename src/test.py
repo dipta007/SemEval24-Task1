@@ -1,21 +1,21 @@
 import sys
 import torch
-from models.dummy_model import DummyModel
+from models.model import TeluguModel
 import os
 import lightning as pl
-from dataloaders.dummy_datamodule import DummyDataModule
+from dataloaders.telugu_datamodule import TeluguDataModule
 import argparse
 
 
 def test(model_path):
-    model = DummyModel.load_from_checkpoint(model_path)
+    model = TeluguModel.load_from_checkpoint(model_path)
 
     config = model.config
     config.batch_size = 1
 
     model.eval()
 
-    datamodule = DummyDataModule(config)
+    datamodule = TeluguDataModule(config)
     datamodule.prepare_data()
     datamodule.setup("test")
 
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--checkpoint_dir",
         type=str,
-        default="/nfs/ada/ferraro/users/sroydip1/dummy/checkpoints/",
+        default="/nfs/ada/ferraro/users/sroydip1/ssemeval24/task1/checkpoints/",
         help="Checkpoint directory",
     )
     parser.add_argument("--exp_name", type=str, required=True, help="Experiment name")

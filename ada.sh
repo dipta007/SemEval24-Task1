@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #SBATCH -D .
-#SBATCH --job-name="dummy"
-#SBATCH --output=run/dummy.log
-#SBATCH --error=run/dummy.err
+#SBATCH --job-name="S1"
+#SBATCH --output=run/S1.log
+#SBATCH --error=run/S1.err
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
 #SBATCH --mem=40000
