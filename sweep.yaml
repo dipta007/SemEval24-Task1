@@ -1,0 +1,21 @@
+# To edit this file: https://docs.wandb.ai/guides/sweeps/define-sweep-configuration
+
+entity: gcnssdvae
+project: dummy
+
+program: src/train.py
+method: bayes
+metric:
+  name: val/acc
+  goal: maximize
+parameters:
+  lr:
+    distribution: uniform
+    min: 0.00001
+    max: 0.0001
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args}
+  - --exp_name=sweep
