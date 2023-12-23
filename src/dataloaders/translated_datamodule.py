@@ -50,7 +50,7 @@ class TranslatedDataModule(pl.LightningDataModule):
             batch_size=self.config.batch_size,
             shuffle=True,
             collate_fn=self.collate_fn,
-            num_workers=1,
+            num_workers=0,
         )
 
     def val_dataloader(self):
@@ -59,7 +59,7 @@ class TranslatedDataModule(pl.LightningDataModule):
             batch_size=self.config.batch_size,
             shuffle=False,
             collate_fn=self.collate_fn,
-            num_workers=1,
+            num_workers=0,
         )
 
     def test_dataloader(self):
@@ -68,7 +68,7 @@ class TranslatedDataModule(pl.LightningDataModule):
             batch_size=self.config.batch_size,
             shuffle=False,
             collate_fn=self.collate_fn,
-            num_workers=1,
+            num_workers=0,
         )
 
     def collate_fn(self, batch):
