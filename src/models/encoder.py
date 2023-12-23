@@ -18,6 +18,8 @@ class Encoder(nn.Module):
             enc = self.max_pooling(enc, text["attention_mask"])
         elif self.config.enc_pooling == "cls":
             enc = enc[:, 0, :]
+        else:
+            raise ValueError(f"Invalid pooling: {self.config.enc_pooling}")
 
         return enc
 

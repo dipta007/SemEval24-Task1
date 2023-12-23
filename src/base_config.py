@@ -12,7 +12,7 @@ def add_program_args():
 
 def add_data_args(parent_parser):
     parser = parent_parser.add_argument_group("Data Config")
-    parser.add_argument("--data_dir", type=str, default="./data/Track A/tel", help="Data directory")
+    parser.add_argument("--data_dir", type=str, default="./data/Track A", help="Data directory")
     parser.add_argument("--batch_size", type=int, default=2, help="Batch size?")
     return parent_parser
 
@@ -27,7 +27,7 @@ def add_model_args(parent_parser):
 def add_trainer_args(parent_parser):
     parser = parent_parser.add_argument_group("Trainer Config")
     parser.add_argument("--max_epochs", type=int, default=-1, help="Number of maximum epochs", )
-    parser.add_argument("--validate_every", type=int, default=0.5, help="Number of maximum epochs")
+    parser.add_argument("--validate_every", type=int, default=0.125, help="Number of maximum epochs")
     parser.add_argument("--lr", type=float, default=2e-5, help="Learning rate")
     parser.add_argument("--accumulate_grad_batches", type=int, default=-1, help="Number of accumulation of grad batches, -1 for no accumulation")
     parser.add_argument("--overfit", type=int, default=0, help="Overfit batches")

@@ -7,7 +7,7 @@ from lightning.pytorch.callbacks import (
     ModelCheckpoint,
 )
 from lightning.pytorch.loggers import WandbLogger
-from dataloaders.telugu_datamodule import TeluguDataModule
+from dataloaders.translated_datamodule import TranslatedDataModule
 from models.model import TeluguModel
 import base_config as config
 import shutil
@@ -66,7 +66,7 @@ def main():
         loggers[0].experiment.define_metric("valid/text_acc", summary="max")
 
     print("Loading data")
-    datamodule = TeluguDataModule(config)
+    datamodule = TranslatedDataModule(config)
 
     print("Loading model")
     model = TeluguModel(config)

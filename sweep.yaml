@@ -6,16 +6,38 @@ project: sem1
 program: src/train.py
 method: bayes
 metric:
-  name: val/acc
+  name: val/corr
   goal: maximize
 parameters:
   lr:
     distribution: uniform
     min: 0.00001
     max: 0.0001
+  model_name:
+    values:
+      # - "sentence-transformers/sentence-t5-xxl",
+      # - "sentence-transformers/gtr-t5-xxl",
+      - "sentence-transformers/all-roberta-large-v1",
+      - "sentence-transformers/all-mpnet-base-v1",
+      - "sentence-transformers/gtr-t5-large",
+      # - "sentence-transformers/gtr-t5-xl",
+      - "sentence-transformers/all-mpnet-base-v2",
+      # - "sentence-transformers/sentence-t5-xl
+      - "sentence-transformers/sentence-t5-large",
+      - "sentence-transformers/all-MiniLM-L12-v1",
+      - "sentence-transformers/all-distilroberta-v1",
+      - "sentence-transformers/all-MiniLM-L12-v2",
+      - "sentence-transformers/all-MiniLM-L6-v2",
+  weight_decay:
+    values: [0.0, 0.01, 0.001, 0.0001]
+  enc_pooling:
+    values: [cls, mean]
+  accumulate_grad_batches:
+    values: [-1, 64, 128, 256]
 command:
   - ${env}
   - ${interpreter}
   - ${program}
   - ${args}
   - --exp_name=sweep
+  - --batch_size=32
