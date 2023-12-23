@@ -6,7 +6,7 @@ project: sem1
 program: src/train.py
 method: bayes
 metric:
-  name: val/corr
+  name: valid/corr
   goal: maximize
 parameters:
   lr:
