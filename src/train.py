@@ -63,7 +63,7 @@ def main():
                 name=config.exp_name if config.exp_name != "sweep" else None,
             )
         ]
-        loggers[0].experiment.define_metric("valid/corr", summary="max")
+        loggers[0].experiment.define_metric("val/corr", summary="max")
 
     print("Loading data")
     datamodule = TranslatedDataModule(config)
