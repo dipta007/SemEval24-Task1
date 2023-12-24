@@ -4,6 +4,7 @@ import lightning as pl
 from transformers import AutoModel
 from .encoder import Encoder
 from scipy import stats
+from dataloaders.translated_datamodule import LANGS
 
 
 class TeluguModel(pl.LightningModule):
@@ -33,16 +34,22 @@ class TeluguModel(pl.LightningModule):
         loss = self.criterion(dis, score)
         log_dict = self.get_metrics(score.view(-1), dis.view(-1), "train")
         log_dict["train/loss"] = loss
-        self.log_dict(log_dict)
+        self.log_dict(log_dict, prog_bar=True)
         return loss
 
-    def validation_step(self, batch, batch_idx):
+    def validation_step(self, batch, batch_idx, dataloader_idx=0):
+        lang = LANGS[dataloader_idx]
         text1, text2, score = batch
         dis = self(text1, text2)
         loss = self.criterion(dis, score)
         log_dict = self.get_metrics(score.view(-1), dis.view(-1), "valid")
         log_dict["valid/loss"] = loss
-        self.log_dict(log_dict)
+
+        for key, val in log_dict.items():
+            self.log(f"{lang}/{key}", val, prog_bar=True, add_dataloader_idx=False)
+        if lang == 'all':
+            self.log("valid/loss", loss, prog_bar=True, add_dataloader_idx=False)
+            self.log("valid/corr", log_dict["valid/corr"], prog_bar=True, add_dataloader_idx=False)
         return loss
 
     def predict_step(self, batch, batch_idx):

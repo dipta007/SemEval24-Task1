@@ -8,6 +8,21 @@ from sklearn.model_selection import train_test_split
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+LANGS = [
+    "all",
+    # 'amh',
+    # 'arq',
+    "ary",
+    "eng",
+    "esp",
+    "hau",
+    "kin",
+    "mar",
+    "tel",
+]
+
+INFERENCE_SELECTED_SMODEL = "facebook/nllb-200-3.3B"
+
 
 class TranslatedDataModule(pl.LightningDataModule):
     def __init__(self, config):
@@ -15,32 +30,34 @@ class TranslatedDataModule(pl.LightningDataModule):
         self.config = config
         self.tokenizer = AutoTokenizer.from_pretrained(self.config.model_name)
 
-    def get_dataset(self, split):
+    def get_dataset(self, split, lang="all"):
         data = []
         df = self.dataset[split]
+        if lang != "all":
+            df = df[df["lang"] == lang]
+        if split != 'train':
+            df = df[df["model"] == INFERENCE_SELECTED_SMODEL]
         for _, row in df.iterrows():
             data.append({"text1": row["text1"], "text2": row["text2"], "score": row["Score"]})
+
         return data
 
     def prepare_data(self):
         # download, tokenize, etc...
         # only called on 1 GPU/TPU in distributed
-        dataset = pd.read_csv(os.path.join(self.config.data_dir, "train_all.csv"))
-        train_dataset, val_dataset = train_test_split(dataset, test_size=0.1, random_state=self.config.seed, stratify=dataset['lang'])
-        print(len(train_dataset), len(val_dataset))
-
-        self.dataset = {
-            "train": train_dataset,
-            "val": val_dataset,
-        }
+        self.dataset = {} 
+        self.dataset['train'] = pd.read_csv(os.path.join(self.config.data_dir, "train_all.csv"))
+        self.dataset['val'] = pd.read_csv(os.path.join(self.config.data_dir, "val_all.csv"))
         pass
 
     def setup(self, stage="fit"):
         if stage == "fit":
             self.train_dataset = self.get_dataset("train")
-            self.val_dataset = self.get_dataset("val")
+            self.val_dataset = {}
+            for lang in LANGS:
+                self.val_dataset[lang] = self.get_dataset("val", lang)
         elif stage == "test":
-            self.test_dataset = self.get_dataset("test")
+            self.test_dataset = self.get_dataset("dev")
         else:
             raise ValueError(f"Invalid stage: {stage}")
 
@@ -54,13 +71,18 @@ class TranslatedDataModule(pl.LightningDataModule):
         )
 
     def val_dataloader(self):
-        return DataLoader(
-            self.val_dataset,
-            batch_size=self.config.batch_size,
-            shuffle=False,
-            collate_fn=self.collate_fn,
-            num_workers=0,
-        )
+        val_dataloaders = []
+        for lang in LANGS:
+            val_dataloaders.append(
+                DataLoader(
+                    self.val_dataset[lang],
+                    batch_size=self.config.batch_size,
+                    shuffle=False,
+                    collate_fn=self.collate_fn,
+                    num_workers=0,
+                )
+            )
+        return val_dataloaders
 
     def test_dataloader(self):
         return DataLoader(
