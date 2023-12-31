@@ -5,7 +5,7 @@
 #SBATCH --output=run/1SWEEP.log
 #SBATCH --error=run/1SWEEP.err
 #SBATCH --nodes=1
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:1
 #SBATCH --mem=40000
 #SBATCH --time=240:00:00
 #SBATCH --constraint=rtx_6000                   # NULL (12GB), rtx_6000 (24GB), rtx_8000 (48GB)

@@ -22,6 +22,7 @@ def add_model_args(parent_parser):
     parser.add_argument("--model_name", type=str, default="l3cube-pune/telugu-bert", help="Model name?")
     parser.add_argument("--weight_decay", type=float, default=0.01, help="Weight decay?")
     parser.add_argument("--enc_pooling", type=str, default="mean", help="Encoder pooling")
+    parser.add_argument("--enc_dropout", type=float, default=0.1, help="Encoder dropout")
     return parent_parser
 
 def add_trainer_args(parent_parser):

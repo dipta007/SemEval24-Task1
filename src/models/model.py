@@ -14,7 +14,7 @@ class TeluguModel(pl.LightningModule):
         self.save_hyperparameters()
 
         encoder = AutoModel.from_pretrained(self.config.model_name, num_labels=1)
-        if self.config.model_name.find("t5") != -1:
+        if self.config.model_name.find("t5") != -1 or self.config.model_name.find("bart") != -1:
             encoder = encoder.get_encoder()
         self.encoder = Encoder(self.config, encoder)
 

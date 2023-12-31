@@ -12,9 +12,11 @@ parameters:
   lr:
     values: [0.0001, 0.0003, 0.00001, 0.000001]
   model_name:
-    values: ["sentence-transformers/all-roberta-large-v1", "sentence-transformers/all-mpnet-base-v1", "sentence-transformers/all-mpnet-base-v2", "sentence-transformers/all-MiniLM-L12-v1", "sentence-transformers/all-distilroberta-v1", "sentence-transformers/all-MiniLM-L12-v2", "sentence-transformers/all-MiniLM-L6-v2"]
+    values: ["sentence-transformers/all-roberta-large-v1", "sentence-transformers/all-mpnet-base-v1", "sentence-transformers/all-mpnet-base-v2", "sentence-transformers/all-MiniLM-L12-v1", "sentence-transformers/all-distilroberta-v1", "sentence-transformers/all-MiniLM-L12-v2", "sentence-transformers/all-MiniLM-L6-v2", "roberta-base", "distilroberta-base", "distilbert-base-uncased", "bert-base-uncased", "facebook/bart-base"]
   weight_decay:
-    values: [0.0, 0.01, 0.001, 0.0001]
+    values: [0.0, 0.1, 0.01, 0.001, 0.0001]
+  enc_dropout:
+    values: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
   accumulate_grad_batches:
     values: [-1, 32, 64, 128, 256]
 command:

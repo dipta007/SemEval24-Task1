@@ -7,6 +7,7 @@ class Encoder(nn.Module):
         super().__init__()
         self.config = config
         self.encoder = encoder
+        self.dropout = nn.Dropout(self.config.enc_dropout)
 
     def forward(self, text):
         enc = self.encoder(**text)
@@ -21,6 +22,7 @@ class Encoder(nn.Module):
         else:
             raise ValueError(f"Invalid pooling: {self.config.enc_pooling}")
 
+        enc = self.dropout(enc)
         return enc
 
 
