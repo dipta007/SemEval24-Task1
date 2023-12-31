@@ -53,12 +53,12 @@ class TeluguModel(pl.LightningModule):
         return loss
 
     def predict_step(self, batch, batch_idx):
-        text, score = batch
-        y_hat = self(text)
-        return torch.sigmoid(y_hat.view(-1)), score.view(-1)
+        text1, text2, score = batch
+        y_hat = self(text1, text2)
+        return y_hat.view(-1)
 
     def get_metrics(self, y, y_hat, mode):
-        score = stats.spearmanr(y.detach().numpy(), y_hat.detach().numpy())[0]
+        score = stats.spearmanr(y.detach().cpu().numpy(), y_hat.detach().cpu().numpy())[0]
         log_dict = {}
         log_dict[f"{mode}/corr"] = score
         return log_dict

@@ -21,10 +21,6 @@ parameters:
     values: [cls, mean]
   accumulate_grad_batches:
     values: [-1, 64, 128, 256]
-early_terminate:
-  type: hyperband
-  min_iter: 4
-  eta: 2
 command:
   - ${env}
   - ${interpreter}

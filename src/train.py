@@ -78,7 +78,7 @@ def main():
         else 1
     )
     trainer = pl.Trainer(
-        accelerator="cpu",
+        accelerator="auto",
         logger=loggers,
         callbacks=callbacks,
         val_check_interval=config.validate_every,

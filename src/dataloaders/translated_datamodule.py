@@ -57,7 +57,17 @@ class TranslatedDataModule(pl.LightningDataModule):
             for lang in LANGS:
                 self.val_dataset[lang] = self.get_dataset("val", lang)
         elif stage == "test":
-            self.test_dataset = self.get_dataset("dev")
+            self.test_dataset = {}
+            for lang in LANGS:
+                file_path = os.path.join(self.config.data_dir, f"{lang}/dev_translation.csv")
+                if lang == 'all':
+                    file_path = os.path.join(self.config.data_dir, f"dev_all.csv")
+                df = pd.read_csv(file_path)
+                df = df[df["model"] == INFERENCE_SELECTED_SMODEL]
+                data = []
+                for _, row in df.iterrows():
+                    data.append({"text1": row["text1"], "text2": row["text2"], "score": 0, "pair_id": row["PairID"]})
+                self.test_dataset[lang] = data
         else:
             raise ValueError(f"Invalid stage: {stage}")
 
@@ -84,9 +94,9 @@ class TranslatedDataModule(pl.LightningDataModule):
             )
         return val_dataloaders
 
-    def test_dataloader(self):
+    def test_dataloader(self, lang):
         return DataLoader(
-            self.test_dataset,
+            self.test_dataset[lang],
             batch_size=self.config.batch_size,
             shuffle=False,
             collate_fn=self.collate_fn,

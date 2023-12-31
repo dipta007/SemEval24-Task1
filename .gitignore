@@ -166,3 +166,5 @@ run/
 data/
 checkpoints/
 lightning_logs/
+submit/
+out/
