@@ -34,6 +34,7 @@ def add_trainer_args(parent_parser):
     parser.add_argument("--early_stopping_patience", type=int, default=10, help="Early stopping patience? -1 if no early stopping")
     parser.add_argument("--monitoring_metric", type=str, default="valid/corr", help="Monitoring metric")
     parser.add_argument("--monitoring_mode", type=str, default="max", help="Monitoring mode")
+    parser.add_argument("--ddp", type=bool, default=False, action=argparse.BooleanOptionalAction, help="Use DDP?")
     return parent_parser
 
 def get_config():

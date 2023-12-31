@@ -77,8 +77,11 @@ def main():
         if config.batch_size < config.accumulate_grad_batches or config.accumulate_grad_batches == -1
         else 1
     )
+
+    strategy = "ddp_find_unused_parameters_true" if config.ddp else 'auto'
     trainer = pl.Trainer(
         accelerator="auto",
+        strategy=strategy,
         logger=loggers,
         callbacks=callbacks,
         val_check_interval=config.validate_every,

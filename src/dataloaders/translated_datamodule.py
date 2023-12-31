@@ -31,6 +31,10 @@ class TranslatedDataModule(pl.LightningDataModule):
         self.tokenizer = AutoTokenizer.from_pretrained(self.config.model_name)
 
     def get_dataset(self, split, lang="all"):
+        self.dataset = {} 
+        self.dataset['train'] = pd.read_csv(os.path.join(self.config.data_dir, "train_all.csv"))
+        self.dataset['val'] = pd.read_csv(os.path.join(self.config.data_dir, "val_all.csv"))
+
         data = []
         df = self.dataset[split]
         if lang != "all":
@@ -44,10 +48,7 @@ class TranslatedDataModule(pl.LightningDataModule):
 
     def prepare_data(self):
         # download, tokenize, etc...
-        # only called on 1 GPU/TPU in distributed
-        self.dataset = {} 
-        self.dataset['train'] = pd.read_csv(os.path.join(self.config.data_dir, "train_all.csv"))
-        self.dataset['val'] = pd.read_csv(os.path.join(self.config.data_dir, "val_all.csv"))
+        # only called on 1 GPU/TPU in distri
         pass
 
     def setup(self, stage="fit"):
