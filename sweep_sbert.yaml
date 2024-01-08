@@ -1,0 +1,29 @@
+# To edit this file: https://docs.wandb.ai/guides/sweeps/define-sweep-configuration
+
+entity: gcnssdvae
+project: sem1
+
+program: src/train_sbert.py
+method: bayes
+metric:
+  name: valid/corr.max
+  goal: maximize
+parameters:
+  smodel:
+    values: [bert-base-uncased, roberta-base, bert-large, "sentence-transformers/all-mpnet-base-v2", "sentence-transformers/all-roberta-large-v1" "sentence-transformers/sentence-t5-xl", "sentence-transformers/gtr-t5-xl"]
+  lr_scheduler:
+    values: ['constantlr', 'WarmupLinear', 'WarmupCosine', 'WarmupCosineWithHardRestartsSchedule']
+  warmup_steps:
+    values: [100, 1000, 10000]
+  weight_decay:
+    values: [0.0, 0.1, 0.01, 0.001]
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args}
+  - --seed=42
+  - --batch_size=8
+  - --epochs=100
+  - --validate_every=275
+  - --save_dir=./sbert_sweep
