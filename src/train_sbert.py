@@ -12,9 +12,8 @@ import sys
 import wandb
 import argparse
 
-wandb.login()
-
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print("DEVICE:", DEVICE)
 
 STS_MODELS = [
     # "sentence-transformers/gtr-t5-xxl",
@@ -117,27 +116,23 @@ def train(args, train_df, val_df, test_df):
     test_evaluator = get_evaluator(test_df)
 
     Path(args.save_dir).mkdir(parents=True, exist_ok=True)
-    fp = open(f"{args.save_dir}/results.txt", "a")
+    # fp = open(f"{args.save_dir}/results.txt", "a")
 
     model_name = args.smodel
-    lr_scheduler = args.lr_scheduler
-    steps = args.warmup_steps
-    weight_decay = args.weight_decay
-    save_model_name = f"{model_name.split('/')[-1]}_wd_{weight_decay}_lrs_{lr_scheduler}_warms_{steps}"
+    save_model_name = f"{model_name.split('/')[-1]}_wd_{args.weight_decay}_lrs_{args.lr_scheduler}_warms_{args.warmup_steps}"
     print("Training", save_model_name)
 
-
+    wandb.login()
     wandb.init(
         entity="gcnssdvae",
         project="sem1",
         tags=["sbert", "sweep"],
         name=save_model_name,
-        settings=wandb.Settings(start_method="thread"),
         config={
             "model": model_name,
-            "lr_scheduler": lr_scheduler,
-            "warmup_steps": steps,
-            "weight_decay": weight_decay,
+            "lr_scheduler": args.lr_scheduler,
+            "warmup_steps": args.warmup_steps,
+            "weight_decay": args.weight_decay,
             "seed": args.seed,
             "batch_size": args.batch_size,
             "epochs": args.epochs,
@@ -159,9 +154,9 @@ def train(args, train_df, val_df, test_df):
         train_objectives=[(train_dataloader, train_loss)],
         evaluator=val_evaluator,
         epochs=args.epochs,
-        scheduler=lr_scheduler,
-        warmup_steps=steps,
-        weight_decay=weight_decay,
+        scheduler=args.lr_scheduler,
+        warmup_steps=args.warmup_steps,
+        weight_decay=args.weight_decay,
         evaluation_steps=args.validate_every,
         output_path=f"{args.save_dir}/{save_model_name}",
         save_best_model=True,
@@ -175,12 +170,8 @@ def train(args, train_df, val_df, test_df):
     print("Score:", out)
     wandb.run.summary["test/corr"] = out
     print("\n")
-    format_str = "{:<70} {:<20} {:<10} {:<10} {:<10.7f}"
-    fp.write(format_str.format(model_name, lr_scheduler, steps, weight_decay, out) + "\n")
-
-    wandb.finish()
-
-    fp.close()
+    # format_str = "{:<70} {:<20} {:<10} {:<10} {:<10.7f}"
+    # fp.write(format_str.format(model_name, args.lr_scheduler, args.warmup_steps, args.weight_decay, out) + "\n")
 
 
 if __name__ == "__main__":
@@ -188,6 +179,3 @@ if __name__ == "__main__":
     train_df, val_df, test_df = load_data(args)
     # train_df, val_df, test_df = load_translated_data()
     train(args, train_df, val_df, test_df)
-
-
-# python src/train_sbert.py --smodel="sentence-transformers/all-mpnet-base-v2" --lr_scheduler=constantlr --warmup_steps=100 --weight_decay=0.01 --epochs=1

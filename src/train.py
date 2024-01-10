@@ -25,7 +25,8 @@ def main():
     monitoring_metric = config.monitoring_metric
     monitoring_mode = config.monitoring_mode
     checkpoint_dir = f"{config.checkpoint_dir}/{config.exp_name}"
-    shutil.rmtree(checkpoint_dir, ignore_errors=True)
+    if config.exp_name != "sweep":
+        shutil.rmtree(checkpoint_dir, ignore_errors=True)
 
     callbacks = [
         ModelCheckpoint(
@@ -74,7 +75,7 @@ def main():
     print("Training")
     accumulate_grad_batches = (
         config.accumulate_grad_batches // config.batch_size
-        if config.batch_size < config.accumulate_grad_batches or config.accumulate_grad_batches == -1
+        if config.batch_size < config.accumulate_grad_batches and config.accumulate_grad_batches != -1
         else 1
     )
 
