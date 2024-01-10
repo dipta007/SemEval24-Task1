@@ -39,7 +39,7 @@ def get_config():
     argparser.add_argument("--warmup_steps", type=int, required=True)
     argparser.add_argument("--weight_decay", type=float, required=True)
     argparser.add_argument("--seed", type=int, default=42)
-    argparser.add_argument("--batch_size", type=int, default=8)
+    argparser.add_argument("--batch_size", type=int, default=4)
     argparser.add_argument("--epochs", type=int, default=100)
     argparser.add_argument("--validate_every", type=int, default=275)
     argparser.add_argument("--save_dir", type=str, default="./sbert_sweep")
