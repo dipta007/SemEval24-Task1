@@ -25,14 +25,15 @@ monitoring_mode='max'
 ```
 
 ### Test Results
-1. English - 0.8124657642704284
-2. Hausa - 0.6402557259721893
-3. Kinyarwanda - 0.6806672639024565
-4. Marathi - 0.8406501120112206
-5. Moroccan Arabic - 0.7447707874574931
-6. Spanish - 0.6382694075818184
-7. Telugu - 0.8255452084837941
-
+| Language | Spearman Correlation |
+|----------|----------------------|
+| English  | 0.8124657642704284   |
+| Hausa    | 0.6402557259721893   |
+| Kinyarwanda | 0.6806672639024565 |
+| Marathi  | 0.8406501120112206   |
+| Moroccan Arabic | 0.7447707874574931 |
+| Spanish  | 0.6382694075818184   |
+| Telugu   | 0.8255452084837941   |
 
 ## Team Name
 UMBCLU
