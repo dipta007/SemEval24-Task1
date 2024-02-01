@@ -11,7 +11,17 @@ Later during inference, that test data is also translated using one of the model
 
 ### Best Hyperparameters
 ```
-Namespace(debug=False, seed=42, cuda=True, checkpoint_dir='/nfs/ada/ferraro/users/sroydip1/semeval24/task1/checkpoints/', wandb_entity='gcnssdvae', wandb_project='sem1', data_dir='./data/Track A', batch_size=1, exp_name='v4_best_2', model_name='sentence-transformers/all-distilroberta-v1', weight_decay=0.01, enc_pooling='mean', enc_dropout=0.1, max_epochs=-1, validate_every=1.0, lr=1e-05, accumulate_grad_batches=32, overfit=0, early_stopping_patience=10, monitoring_metric='valid/corr', monitoring_mode='max', ddp=False)
+seed=42
+batch_size=16
+model_name='sentence-transformers/all-distilroberta-v1'
+weight_decay=0.01
+enc_pooling='mean'
+enc_dropout=0.1
+lr=1e-05
+accumulate_grad_batches=32
+early_stopping_patience=10
+monitoring_metric='valid/corr'
+monitoring_mode='max'
 ```
 
 ### Test Results

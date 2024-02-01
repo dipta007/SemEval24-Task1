@@ -16,12 +16,16 @@ def test(model_path, exp_name, stage):
     if stage:
         stage = f"_{stage}"
 
+    
     config = model.config
-    config.batch_size = 1
-
     print("Config:")
     print(config)
     print()
+
+    config.batch_size = 1
+
+    exit()
+
 
     model.eval()
 
