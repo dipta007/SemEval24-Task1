@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "opus.py", line 3, in <module>
+    import sentence_transformers.util
+ModuleNotFoundError: No module named 'sentence_transformers'
+slurmstepd: error: *** JOB 89608 ON g01 CANCELLED AT 2024-01-18T12:59:56 ***

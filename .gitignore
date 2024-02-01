@@ -169,3 +169,4 @@ lightning_logs/
 submit/
 out/
 sbert*/
+test_data/

@@ -23,7 +23,7 @@ command:
   - ${program}
   - ${args}
   - --seed=42
-  - --batch_size=4
+  - --batch_size=8
   - --epochs=100
   - --validate_every=275
   - --save_dir=./sbert_sweep
