@@ -10,8 +10,8 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 LANGS = [
     "all",
-    # 'amh',
-    # 'arq',
+    # 'amh', Amharic is not supported
+    # 'arq', Algerian Arabic is not supported
     "ary",
     "eng",
     "esp",
@@ -63,6 +63,18 @@ class TranslatedDataModule(pl.LightningDataModule):
                 file_path = os.path.join(self.config.data_dir, f"{lang}/dev_translation.csv")
                 if lang == 'all':
                     file_path = os.path.join(self.config.data_dir, f"dev_all.csv")
+                df = pd.read_csv(file_path)
+                df = df[df["model"] == INFERENCE_SELECTED_SMODEL]
+                data = []
+                for _, row in df.iterrows():
+                    data.append({"text1": row["text1"], "text2": row["text2"], "score": 0, "pair_id": row["PairID"]})
+                self.test_dataset[lang] = data
+        elif stage == "test_final":
+            self.test_dataset = {}
+            for lang in LANGS:
+                file_path = os.path.join(f"./test_data/Track A/{lang}/test_translation.csv")
+                if lang == 'all':
+                    file_path = os.path.join("./test_data/Track A/test_all.csv")
                 df = pd.read_csv(file_path)
                 df = df[df["model"] == INFERENCE_SELECTED_SMODEL]
                 data = []
