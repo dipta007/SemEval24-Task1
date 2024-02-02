@@ -163,11 +163,11 @@ cython_debug/
 wandb/
 log/
 run/
-data/
 checkpoints/
 lightning_logs/
 submit/
 out/
 sbert_sweep/
-test_data/
 models_sbert/
+/data
+/test_data
