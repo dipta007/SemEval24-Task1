@@ -30,7 +30,7 @@ def add_trainer_args(parent_parser):
     parser.add_argument("--max_epochs", type=int, default=-1, help="Number of maximum epochs", )
     parser.add_argument("--validate_every", type=float, default=0.125, help="Number of maximum epochs")
     parser.add_argument("--lr", type=float, default=1e-5, help="Learning rate")
-    parser.add_argument("--accumulate_grad_batches", type=int, default=-1, help="Number of accumulation of grad batches, -1 for no accumulation")
+    parser.add_argument("--accumulate_grad_batches", type=int, default=32, help="Number of accumulation of grad batches, -1 for no accumulation")
     parser.add_argument("--overfit", type=int, default=0, help="Overfit batches")
     parser.add_argument("--early_stopping_patience", type=int, default=10, help="Early stopping patience? -1 if no early stopping")
     parser.add_argument("--monitoring_metric", type=str, default="valid/corr", help="Monitoring metric")
