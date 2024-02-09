@@ -8,7 +8,7 @@ from lightning.pytorch.callbacks import (
 )
 from lightning.pytorch.loggers import WandbLogger
 from dataloaders.translated_datamodule import TranslatedDataModule
-from models.model import TeluguModel
+from models.model import TranslationModel
 import base_config as config
 import shutil
 import wandb
@@ -69,7 +69,7 @@ def main():
     datamodule = TranslatedDataModule(config)
 
     print("Loading model")
-    model = TeluguModel(config)
+    model = TranslationModel(config)
 
     print("Training")
     accumulate_grad_batches = (

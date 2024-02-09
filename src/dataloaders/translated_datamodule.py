@@ -72,9 +72,9 @@ class TranslatedDataModule(pl.LightningDataModule):
         elif stage == "test_final":
             self.test_dataset = {}
             for lang in LANGS:
-                file_path = os.path.join(f"./test_data/Track A/{lang}/test_translation.csv")
+                file_path = os.path.join(f"./data/test_data/Track A/{lang}/test_translation.csv")
                 if lang == 'all':
-                    file_path = os.path.join("./test_data/Track A/test_all.csv")
+                    file_path = os.path.join("./data/test_data/Track A/test_all.csv")
                 df = pd.read_csv(file_path)
                 df = df[df["model"] == INFERENCE_SELECTED_SMODEL]
                 data = []

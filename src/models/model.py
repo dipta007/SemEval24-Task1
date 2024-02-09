@@ -7,15 +7,13 @@ from scipy import stats
 from dataloaders.translated_datamodule import LANGS
 
 
-class TeluguModel(pl.LightningModule):
+class TranslationModel(pl.LightningModule):
     def __init__(self, config):
         super().__init__()
         self.config = config
         self.save_hyperparameters()
 
         encoder = AutoModel.from_pretrained(self.config.model_name, num_labels=1)
-        if self.config.model_name.find("t5") != -1 or self.config.model_name.find("bart") != -1:
-            encoder = encoder.get_encoder()
         self.encoder = Encoder(self.config, encoder)
 
         self.cos = nn.CosineSimilarity(dim=-1, eps=1e-6)

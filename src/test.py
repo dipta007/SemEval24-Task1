@@ -1,26 +1,28 @@
 import sys
 import torch
-from models.model import TeluguModel
+from models.model import TranslationModel
 import os
 import lightning as pl
 from dataloaders.translated_datamodule import TranslatedDataModule, LANGS
 import argparse
+from pprint import pprint
 from pathlib import Path
 import pandas as pd
 import zipfile
 
 
 def test(model_path, exp_name, stage):
-    model = TeluguModel.load_from_checkpoint(model_path)
+    model = TranslationModel.load_from_checkpoint(model_path)
 
     if stage:
         stage = f"_{stage}"
 
     
     config = model.config
+    print("="*50)
     print("Config:")
-    print(config)
-    print()
+    pprint(vars(config))
+    print("="*50)
 
     config.batch_size = 1
 
@@ -47,13 +49,12 @@ def test(model_path, exp_name, stage):
         rename_dict = {"text1": "Text1", "text2": "Text2", "score": "Pred_Score", "pair_id": "PairID"}
         df = df.rename(columns=rename_dict)
 
-        Path(f"submit/{exp_name}{stage}").mkdir(parents=True, exist_ok=True)
-        df.to_csv(f"./submit/{exp_name}{stage}/pred_{lang}_a.csv", index=False, columns=['PairID', 'Pred_Score'])
-        # os.system(f"zip -r submit/{exp_name}/{lang}.zip submit/{exp_name}/pred_{lang}_a.csv")
-        # shutil.make_archive(f"submit/{exp_name}/{lang}", 'zip', f"submit/{exp_name}/pred_{lang}_a.csv")
-        zip = zipfile.ZipFile(f"submit/{exp_name}{stage}/{lang}.zip", 'w', zipfile.ZIP_DEFLATED)
-        zip.write(f"submit/{exp_name}{stage}/pred_{lang}_a.csv", arcname=f"pred_{lang}_a.csv")
-        zip.close()
+        Path(f"./data/out/{exp_name}{stage}").mkdir(parents=True, exist_ok=True)
+        df.to_csv(f"./data/out/{exp_name}{stage}/pred_{lang}_a.csv", index=False, columns=['PairID', 'Pred_Score'])
+
+        # zip = zipfile.ZipFile(f"submit/{exp_name}{stage}/{lang}.zip", 'w', zipfile.ZIP_DEFLATED)
+        # zip.write(f"submit/{exp_name}{stage}/pred_{lang}_a.csv", arcname=f"pred_{lang}_a.csv")
+        # zip.close()
 
 
 if __name__ == "__main__":
@@ -66,7 +67,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("--exp_name", type=str, required=True, help="Experiment name")
     parser.add_argument("--lang", type=str, default="all", help="Which langs to predict?")
-    parser.add_argument("--stage", type=str, default="", help="Device")
+    parser.add_argument("--stage", type=str, default="", help="Stage? ['', 'final']")
     args = parser.parse_args()
 
     files = os.listdir(f"{args.checkpoint_dir}/{args.exp_name}")

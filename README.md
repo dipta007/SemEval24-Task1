@@ -22,6 +22,9 @@ accumulate_grad_batches=32
 early_stopping_patience=10
 monitoring_metric='valid/corr'
 monitoring_mode='max'
+early_stopping_patience: 10
+exp_name: 'v4_best_2',
+validate_every: 1.0,
 ```
 
 ### Test Results
