@@ -24,9 +24,6 @@ def test(model_path, exp_name, stage):
 
     config.batch_size = 1
 
-    exit()
-
-
     model.eval()
 
     datamodule = TranslatedDataModule(config)

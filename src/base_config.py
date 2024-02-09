@@ -19,7 +19,7 @@ def add_data_args(parent_parser):
 def add_model_args(parent_parser):
     parser = parent_parser.add_argument_group("Model Config")
     parser.add_argument("--exp_name", type=str, default="sem1", help="Experiement name?", required=True)
-    parser.add_argument("--model_name", type=str, default="l3cube-pune/telugu-bert", help="Model name?")
+    parser.add_argument("--model_name", type=str, default="sentence-transformers/all-distilroberta-v1", help="Model name?")
     parser.add_argument("--weight_decay", type=float, default=0.01, help="Weight decay?")
     parser.add_argument("--enc_pooling", type=str, default="mean", help="Encoder pooling")
     parser.add_argument("--enc_dropout", type=float, default=0.1, help="Encoder dropout")
@@ -29,7 +29,7 @@ def add_trainer_args(parent_parser):
     parser = parent_parser.add_argument_group("Trainer Config")
     parser.add_argument("--max_epochs", type=int, default=-1, help="Number of maximum epochs", )
     parser.add_argument("--validate_every", type=float, default=0.125, help="Number of maximum epochs")
-    parser.add_argument("--lr", type=float, default=2e-5, help="Learning rate")
+    parser.add_argument("--lr", type=float, default=1e-5, help="Learning rate")
     parser.add_argument("--accumulate_grad_batches", type=int, default=-1, help="Number of accumulation of grad batches, -1 for no accumulation")
     parser.add_argument("--overfit", type=int, default=0, help="Overfit batches")
     parser.add_argument("--early_stopping_patience", type=int, default=10, help="Early stopping patience? -1 if no early stopping")

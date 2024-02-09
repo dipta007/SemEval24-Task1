@@ -172,4 +172,3 @@ sbert_sweep/
 test_data/
 models_sbert/
 /data
-/test_data
