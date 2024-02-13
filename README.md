@@ -11,20 +11,23 @@ Later during inference, that test data is also translated using one of the model
 
 ### Best Hyperparameters
 ```
-seed=42
-batch_size=16
-model_name='sentence-transformers/all-distilroberta-v1'
-weight_decay=0.01
-enc_pooling='mean'
-enc_dropout=0.1
-lr=1e-05
-accumulate_grad_batches=32
-early_stopping_patience=10
-monitoring_metric='valid/corr'
-monitoring_mode='max'
-early_stopping_patience: 10
-exp_name: 'v4_best_2',
-validate_every: 1.0,
+ 'accumulate_grad_batches': 32,
+ 'batch_size': 16,
+ 'cuda': True,
+ 'data_dir': './data/Track A',
+ 'ddp': False,
+ 'debug': False,
+ 'early_stopping_patience': 10,
+ 'enc_dropout': 0.1,
+ 'enc_pooling': 'mean',
+ 'lr': 1e-05,
+ 'max_epochs': -1,
+ 'model_name': 'sentence-transformers/all-distilroberta-v1',
+ 'monitoring_metric': 'valid/corr',
+ 'monitoring_mode': 'max',
+ 'seed': 42,
+ 'validate_every': 1.0,
+ 'weight_decay': 0.01
 ```
 
 ### Test Results
