@@ -1,4 +1,5 @@
 import torch
+import math
 from torch import nn
 import lightning as pl
 from transformers import AutoModel
@@ -57,6 +58,8 @@ class TranslationModel(pl.LightningModule):
 
     def get_metrics(self, y, y_hat, mode):
         score = stats.spearmanr(y.detach().cpu().numpy(), y_hat.detach().cpu().numpy())[0]
+        if math.isnan(score) or math.isinf(score) or score < -1 or score > 1:
+            score = 0.0
         log_dict = {}
         log_dict[f"{mode}/corr"] = score
         return log_dict

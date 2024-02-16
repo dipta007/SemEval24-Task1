@@ -167,3 +167,4 @@ data/
 checkpoints/
 lightning_logs/
 /data
+.vscode
