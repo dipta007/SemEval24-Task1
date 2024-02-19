@@ -14,7 +14,9 @@ class TranslationModel(pl.LightningModule):
         self.config = config
         self.save_hyperparameters()
 
-        encoder = AutoModel.from_pretrained(self.config.model_name, num_labels=1)
+        encoder = AutoModel.from_pretrained(config.model_name)
+        if encoder.config.is_encoder_decoder:
+            encoder = encoder.get_encoder()
         self.encoder = Encoder(self.config, encoder)
 
         self.cos = nn.CosineSimilarity(dim=-1, eps=1e-6)
