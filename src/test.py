@@ -50,22 +50,23 @@ def test(model_path, exp_name, stage):
         rename_dict = {"text1": "Text1", "text2": "Text2", "score": "Pred_Score", "pair_id": "PairID"}
         df = df.rename(columns=rename_dict)
 
-        Path(f"./data/final_test/zipped").mkdir(parents=True, exist_ok=True)
-        df.to_csv(f"./data/final_test/zipped/{exp_name}{stage}_pred_{lang}_a.csv", index=False, columns=['PairID', 'Pred_Score'])
 
-        zip = zipfile.ZipFile(f"./data/final_test/zipped/{exp_name}.zip", 'w', zipfile.ZIP_DEFLATED)
-        zip.write(f"./data/final_test/zipped/{exp_name}{stage}_pred_{lang}_a.csv", arcname=f"pred_{lang}_a.csv")
-        zip.close()
+        if lang == "esp":   # because we dont have spanish gold labels
+            Path(f"./data/final_test/final/zipped").mkdir(parents=True, exist_ok=True)
+            df.to_csv(f"./data/final_test/final/zipped/{exp_name}{stage}_pred_{lang}_a.csv", index=False, columns=['PairID', 'Pred_Score'])
+            zip = zipfile.ZipFile(f"./data/final_test/final/zipped/{exp_name}.zip", 'w', zipfile.ZIP_DEFLATED)
+            zip.write(f"./data/final_test/final/zipped/{exp_name}{stage}_pred_{lang}_a.csv", arcname=f"pred_{lang}_a.csv")
+            zip.close()
+        else:
+            df = df[["PairID", "Pred_Score"]]
+            gold_df = pd.read_csv(f"./data/Track A/test/{lang}/{lang}_test_with_labels.csv")
+            df = df.merge(gold_df, on="PairID")
+            df = df[["PairID", "Pred_Score", "Score"]]
+            score = stats.spearmanr(df["Pred_Score"], df["Score"])[0]
 
-        # df = df[["PairID", "Pred_Score"]]
-        # gold_df = pd.read_csv(f"./data/Track A/test/{lang}/{lang}_test_with_labels.csv")
-        # df = df.merge(gold_df, on="PairID")
-        # df = df[["PairID", "Pred_Score", "Score"]]
-        # score = stats.spearmanr(df["Pred_Score"], df["Score"])[0]
-
-        # print("="*50)
-        # print(f"Spearman correlation for {lang}: {score:.4f}")
-        # print("="*50)
+            print("="*50)
+            print(f"Spearman correlation for {lang}: {score:.4f}")
+            print("="*50)
 
 
 

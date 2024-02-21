@@ -6,10 +6,11 @@ models = [
     # "sentence-transformers/all-roberta-large-v1",
     # "sentence-transformers/all-MiniLM-L12-v2",
     # "sentence-transformers/multi-qa-mpnet-base-dot-v1",
-    "sentence-transformers/sentence-t5-xl"
+    # "sentence-transformers/sentence-t5-xl"
 ]
 # enc_pooling = ["max", "cls"]
 # batch_size = [4, 8]
+# batch_size = [4]
 # accu_grads = [16, 64, 128, 256]
 
 def call(cmd):
